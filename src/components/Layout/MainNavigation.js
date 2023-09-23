@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import AuthContext from "../../store/auth-context";
 
 import classes from "./MainNavigation.module.css";
@@ -12,6 +12,15 @@ const MainNavigation = () => {
   const logoutHandler = () => {
     ctx.logout();
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const logoutTimer = setTimeout(() => {
+        ctx.logout();
+      }, 300000);
+      return () => clearTimeout(logoutTimer);
+    }
+  }, [isLoggedIn, ctx]);
 
   return (
     <header className={classes.header}>
